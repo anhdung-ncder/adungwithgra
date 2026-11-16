@@ -50,6 +50,7 @@ function stripModuleSyntax(code) {
 }
 
 const embeddedMap = {
+  'sakura-shrine-8k': encodeWallpaper('sakura-shrine-8k.jpg'),
   'minato-hokage-8k': encodeWallpaper('minato-hokage-8k.jpg'),
   'thunder-samurai': encodeWallpaper('thunder-samurai.jpg'),
   'cosmic-violin-4k': encodeWallpaper('cosmic-violin-4k.jpg'),

@@ -13,7 +13,7 @@ Hệ thống tùy biến giao diện cao cấp dành cho **Antigravity** hoạt 
   - Tự động phát hiện thanh điều hướng Settings của Antigravity (`General`, `Appearance`, v.v.) và chèn mục **Custom theme** riêng biệt.
   - Phím tắt tiện lợi: `Cmd + Shift + Y` (macOS) hoặc `Ctrl + Shift + Y` (Windows / Linux) để bật/tắt bảng cấu hình bất cứ lúc nào.
 - 🖼️ **Bộ ảnh nền tuyển chọn & Tùy chỉnh độ mờ**:
-  - Tích hợp sẵn các hình nền nghệ thuật: *Lôi Kiếm Vũ Đêm*, *Minato Namikaze*, *Địa Cầu Ánh Sao*, *Vũ Trụ Vĩ Cầm*, *Đền Thờ Anh Đào*, *Thung Lũng Ngọc Bích*.
+  - Tích hợp sẵn các hình nền nghệ thuật 4K / 8K: *Hoa Anh Đào Đêm 8K* (cực kỳ sắc nét), *Lôi Kiếm Vũ Đêm*, *Minato Namikaze*, *Địa Cầu Ánh Sao*, *Vũ Trụ Vĩ Cầm*, *Đền Thờ Anh Đào*, *Thung Lũng Ngọc Bích*.
   - Hỗ trợ **tải ảnh nền cá nhân từ máy tính** (lưu bền vững bằng `IndexedDB`).
   - Tùy chỉnh trực quan: Độ tối (Darkness), Làm mờ nền (Blur), Độ mờ đục của giao diện (Opacity).
 - 🌧️ **Hiệu ứng môi trường sống động (Canvas nhẹ, tiết kiệm tài nguyên)**:

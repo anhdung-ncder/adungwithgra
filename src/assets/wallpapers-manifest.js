@@ -6,6 +6,18 @@
  */
 export const WALLPAPERS = [
   {
+    id: 'sakura-shrine-8k',
+    name: 'Hoa Anh Đào Đêm 8K',
+    nameEn: 'Midnight Sakura 8K',
+    badge: '8K Sắc Nét',
+    badgeEn: '8K Ultra HD',
+    recommendedAccent: '#f472b6',
+    recommendedAtmosphere: 'sakura',
+    recommendedBubble: 'hoa-anh-dao',
+    previewPath: './assets/wallpapers/sakura-shrine-8k.jpg',
+    embeddedDataUri: ''
+  },
+  {
     id: 'minato-hokage-8k',
     name: 'Đệ Tứ Hokage 8K',
     nameEn: 'Minato Hokage 8K',
