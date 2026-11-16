@@ -1,0 +1,173 @@
+/**
+ * Chat Bubble Presets.
+ * Mirrors all 8 presets from Image 1 plus 4 rich bonus styles (including Thunder Blade for Image 3).
+ */
+export const BUBBLE_PRESETS = [
+  {
+    id: 'none',
+    name: 'Mặc định gốc (Tắt)',
+    nameEn: 'None (Native)',
+    mascotId: null,
+    bg: 'transparent',
+    border: '1px dashed rgba(255, 255, 255, 0.16)',
+    text: '#d4d4d8',
+    shadow: 'none',
+    radius: '12px',
+    sparkle: null
+  },
+  {
+    id: 'meo-than',
+    name: 'Mèo than',
+    nameEn: 'Charcoal Cat',
+    mascotId: 'meo-than',
+    mascotAlign: 'right-top',
+    bg: 'rgba(42, 31, 26, 0.88)',
+    border: '1.5px solid rgba(212, 162, 118, 0.55)',
+    text: '#f7eee6',
+    shadow: '0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 226, 194, 0.14)',
+    radius: '14px',
+    sparkle: '#f6d198'
+  },
+  {
+    id: 'thien-ha',
+    name: 'Thiên hà',
+    nameEn: 'Galaxy',
+    mascotId: 'thien-ha',
+    mascotAlign: 'top-center',
+    bg: 'linear-gradient(135deg, rgba(20, 32, 42, 0.92), rgba(14, 22, 32, 0.92))',
+    border: '1.5px solid rgba(232, 187, 107, 0.58)',
+    text: '#eef6ff',
+    shadow: '0 6px 22px rgba(8, 16, 28, 0.6), 0 0 16px rgba(96, 165, 250, 0.14)',
+    radius: '14px',
+    sparkle: '#fcd34d'
+  },
+  {
+    id: 'co-thu',
+    name: 'Cổ thư',
+    nameEn: 'Ancient Scroll',
+    mascotId: null,
+    scrollCaps: true,
+    bg: 'linear-gradient(180deg, #f3e0ad 0%, #e4c67b 55%, #d6b164 100%)',
+    border: '1.5px solid #9c7432',
+    text: '#3b2410',
+    shadow: '0 6px 20px rgba(0, 0, 0, 0.48), inset 0 0 14px rgba(139, 90, 27, 0.25)',
+    radius: '6px',
+    sparkle: '#9c5a14'
+  },
+  {
+    id: 'toi-gian',
+    name: 'Tối giản',
+    nameEn: 'Minimalist',
+    mascotId: null,
+    bg: 'rgba(34, 28, 25, 0.85)',
+    border: '1px solid rgba(255, 255, 255, 0.14)',
+    text: '#f3f4f6',
+    shadow: '0 4px 16px rgba(0, 0, 0, 0.35)',
+    radius: '18px',
+    sparkle: null
+  },
+  {
+    id: 'meo-huyen-thuat',
+    name: 'Mèo huyền thuật',
+    nameEn: 'Arcane Cat',
+    mascotId: 'meo-huyen-thuat',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(35, 25, 24, 0.92), rgba(20, 14, 16, 0.92))',
+    border: '1.5px solid rgba(245, 158, 11, 0.45)',
+    text: '#fdecd8',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.55), 0 0 18px rgba(245, 158, 11, 0.16)',
+    radius: '14px',
+    sparkle: '#fb923c'
+  },
+  {
+    id: 'rong-ngoc',
+    name: 'Rồng ngọc',
+    nameEn: 'Jade Dragon',
+    mascotId: 'rong-ngoc',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(16, 44, 38, 0.9), rgba(10, 29, 26, 0.92))',
+    border: '1.5px solid rgba(52, 211, 153, 0.5)',
+    text: '#e6fff7',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.5), 0 0 16px rgba(52, 211, 153, 0.16)',
+    radius: '14px',
+    sparkle: '#6ee7b7'
+  },
+  {
+    id: 'phu-thuy-anh-trang',
+    name: 'Phù thủy ánh trăng',
+    nameEn: 'Moonlight Witch',
+    mascotId: 'phu-thuy-anh-trang',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(40, 32, 62, 0.92), rgba(24, 19, 41, 0.94))',
+    border: '1.5px solid rgba(192, 132, 252, 0.5)',
+    text: '#f5eeff',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.52), 0 0 18px rgba(192, 132, 252, 0.18)',
+    radius: '14px',
+    sparkle: '#d8b4fe'
+  },
+  {
+    id: 'ho-ly-chibi',
+    name: 'Hồ ly chibi',
+    nameEn: 'Chibi Fox',
+    mascotId: 'ho-ly-chibi',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(48, 32, 24, 0.92), rgba(29, 19, 15, 0.94))',
+    border: '1.5px solid rgba(251, 146, 60, 0.52)',
+    text: '#fff2e8',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.5), 0 0 18px rgba(249, 115, 22, 0.16)',
+    radius: '14px',
+    sparkle: '#fdba74'
+  },
+  {
+    id: 'loi-kiem',
+    name: 'Lôi Kiếm',
+    nameEn: 'Thunder Blade',
+    mascotId: 'loi-kiem',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(24, 21, 18, 0.94), rgba(38, 22, 18, 0.92))',
+    border: '1.5px solid rgba(250, 204, 21, 0.65)',
+    text: '#fef9e7',
+    shadow: '0 6px 24px rgba(0, 0, 0, 0.6), 0 0 18px rgba(250, 204, 21, 0.22)',
+    radius: '12px',
+    sparkle: '#fde047'
+  },
+  {
+    id: 'hoa-anh-dao',
+    name: 'Hoa Anh Đào',
+    nameEn: 'Sakura Blossom',
+    mascotId: 'hoa-anh-dao',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(49, 24, 38, 0.9), rgba(31, 15, 26, 0.92))',
+    border: '1.5px solid rgba(244, 114, 182, 0.52)',
+    text: '#fff1f7',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.5), 0 0 16px rgba(244, 114, 182, 0.18)',
+    radius: '16px',
+    sparkle: '#f9a8d4'
+  },
+  {
+    id: 'den-long-dem',
+    name: 'Đèn Lồng Đêm',
+    nameEn: 'Lantern Spirit',
+    mascotId: 'den-long',
+    mascotAlign: 'right-top',
+    bg: 'linear-gradient(135deg, rgba(44, 28, 16, 0.92), rgba(28, 16, 10, 0.94))',
+    border: '1.5px solid rgba(251, 191, 36, 0.55)',
+    text: '#fef3c7',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.52), 0 0 18px rgba(245, 158, 11, 0.2)',
+    radius: '14px',
+    sparkle: '#fbbf24'
+  },
+  {
+    id: 'cyber-jade',
+    name: 'Cyber Neon',
+    nameEn: 'Cyber Neon',
+    mascotId: null,
+    cyberCorners: true,
+    bg: 'linear-gradient(135deg, rgba(10, 22, 32, 0.92), rgba(14, 16, 28, 0.94))',
+    border: '1.5px solid rgba(56, 189, 248, 0.55)',
+    text: '#e0f2fe',
+    shadow: '0 6px 22px rgba(0, 0, 0, 0.55), 0 0 18px rgba(56, 189, 248, 0.2)',
+    radius: '8px',
+    sparkle: '#38bdf8'
+  }
+];

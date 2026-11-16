@@ -1,0 +1,26 @@
+# Environment & State
+.agy-cdp-state.json
+.launcher.log
+*.log
+user-data/
+Antigravity Custom Theme.app/
+
+# Dependencies & OS
+node_modules/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env files
+.env
+.env.*

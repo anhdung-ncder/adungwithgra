@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Antigravity Custom Theme Injector — Live Preview</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #0d0e11;
+      color: #e4e4e7;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      overflow: hidden;
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+    }
+
+    .topbar {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 14px;
+      background: #141519;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .topbar-left, .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .topbar-menu span {
+      color: #a1a1aa;
+      margin-right: 12px;
+      cursor: default;
+    }
+    .pill-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #f4f4f5;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 7px;
+      padding: 5px 11px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .pill-btn:hover { background: rgba(255, 255, 255, 0.14); }
+
+    .workspace {
+      display: flex;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .sidebar {
+      width: 246px;
+      flex-shrink: 0;
+      background: #131418;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 14px 10px;
+    }
+    .sidebar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 10px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: #d4d4d8;
+      font-size: 13px;
+      cursor: pointer;
+      text-align: left;
+    }
+    .sidebar-btn:hover { background: rgba(255, 255, 255, 0.07); }
+    .sidebar-btn.is-active { background: rgba(255, 255, 255, 0.12); color: #fff; }
+    .sidebar-section-label {
+      font-size: 11px;
+      color: #71717a;
+      padding: 12px 10px 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .main-canvas {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      background: #111216;
+    }
+
+    .chat-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 36px 24px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .welcome-hero {
+      margin: auto;
+      text-align: center;
+      max-width: 560px;
+    }
+    .welcome-hero h1 {
+      font-size: 24px;
+      font-weight: 500;
+      color: #ffffff;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.75);
+      margin: 0 0 10px;
+    }
+    .welcome-hero p {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.72);
+      text-shadow: 0 1px 10px rgba(0, 0, 0, 0.75);
+    }
+
+    .chat-thread {
+      width: min(760px, 100%);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      padding-top: 22px;
+    }
+    .msg-row {
+      display: flex;
+      width: 100%;
+    }
+    .msg-row.user { justify-content: flex-end; }
+    .msg-row.assistant { justify-content: flex-start; }
+
+    .user-bubble {
+      max-width: 72%;
+      padding: 12px 18px;
+      border-radius: 14px;
+      background: #27272a;
+      color: #f4f4f5;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .assistant-card {
+      max-width: 82%;
+      padding: 14px 18px;
+      border-radius: 14px;
+      background: rgba(18, 19, 24, 0.72);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #e4e4e7;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .composer-wrap {
+      width: min(760px, calc(100% - 36px));
+      margin: 0 auto 24px;
+    }
+    .composer-box {
+      padding: 12px 16px;
+      border-radius: 14px;
+      background: rgba(24, 25, 30, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .composer-box textarea {
+      width: 100%;
+      min-height: 36px;
+      max-height: 110px;
+      resize: none;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #f4f4f5;
+      font-size: 13.5px;
+      font-family: inherit;
+    }
+    .composer-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #a1a1aa;
+    }
+
+    /* Settings Overlay mirroring Image 1 */
+    .settings-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      background: rgba(8, 9, 12, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .settings-overlay.is-open { display: flex; }
+
+    .settings-modal {
+      width: min(1040px, 96vw);
+      height: min(740px, 88vh);
+      background: #17171a;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      display: flex;
+      overflow: hidden;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.78);
+    }
+    .settings-nav-pane {
+      width: 225px;
+      flex-shrink: 0;
+      background: #151518;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 18px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .settings-nav-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #71717a;
+      padding: 4px 10px 10px;
+    }
+    .settings-nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .settings-nav-btn {
+      width: 100%;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: #a1a1aa;
+      font-size: 13.5px;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+    }
+    .settings-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: #f4f4f5;
+    }
+    .settings-nav-btn.active {
+      background: rgba(255, 255, 255, 0.11);
+      color: #ffffff;
+    }
+
+    .settings-content-pane {
+      flex: 1;
+      min-width: 0;
+      overflow-y: auto;
+      position: relative;
+    }
+    .native-settings-view {
+      padding: 24px 28px;
+    }
+    .native-settings-view h2 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+    .native-settings-view p {
+      color: #a1a1aa;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .settings-close-bar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 16px 0;
+      pointer-events: none;
+    }
+    .settings-close-bar button { pointer-events: auto; }
+  </style>
+</head>
+<body>
+  <div class="app-shell" data-agy-surface="shell">
+    <header class="topbar" data-agy-surface="topbar">
+      <div class="topbar-left">
+        <strong>▲ Antigravity</strong>
+        <div class="topbar-menu">
+          <span>Workspace</span>
+          <span>View</span>
+          <span>Window</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button type="button" class="pill-btn" id="btn-mode-welcome">Màn hình chào (Ảnh 2)</button>
+        <button type="button" class="pill-btn" id="btn-mode-chat">Bong bóng chat (Ảnh 1)</button>
+        <button type="button" class="pill-btn" id="btn-open-settings">⚙ Mở Settings → Custom theme</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" data-agy-surface="sidebar">
+        <div>
+          <div class="sidebar-group">
+            <button type="button" class="sidebar-btn" id="side-new">+ New Conversation</button>
+            <button type="button" class="sidebar-btn">⏱ Automations</button>
+            <button type="button" class="sidebar-btn">🧩 Customizations</button>
+          </div>
+          <div class="sidebar-section-label">Projects</div>
+          <div class="sidebar-group">
+            <button type="button" class="sidebar-btn">📁 antigravity-custom-theme</button>
+          </div>
+          <div class="sidebar-section-label">Conversations</div>
+          <div class="sidebar-group">
+            <button type="button" class="sidebar-btn is-active" id="side-chat">💬 Friendly Greeting</button>
+          </div>
+        </div>
+        <div class="sidebar-group">
+          <button type="button" class="sidebar-btn" id="side-settings">⚙ Settings</button>
+        </div>
+      </aside>
+
+      <main class="main-canvas" data-agy-surface="canvas">
+        <div class="chat-scroll" id="chat-scroll">
+          <div class="welcome-hero" id="welcome-hero" style="display:none;">
+            <h1>Hey, what should we build today?</h1>
+            <p>Thử kéo thả Pet & Sticker trên màn hình, hoặc mở Settings → Custom theme để tuỳ biến.</p>
+          </div>
+
+          <div class="chat-thread" id="chat-thread">
+            <div class="msg-row user">
+              <div class="user-bubble" data-agy-chat-bubble="true">Xin chào ✨</div>
+            </div>
+            <div class="msg-row assistant">
+              <div class="assistant-card">
+                Chào bạn! Đây là giao diện thử nghiệm trực tiếp của <strong>Antigravity Custom Theme Injector</strong>.<br />
+                Bạn có thể nhấn <strong>⚙ Settings → Custom theme</strong> (hoặc bấm phím <code>Ctrl/Cmd + Shift + Y</code>) để đổi ảnh nền (gồm <strong>Ảnh 3 Lôi Kiếm Vũ Đêm</strong>), hiệu ứng mưa &amp; sét, bong bóng chat, khung nhập chat, sticker và thú cưng tương tác!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="composer-wrap">
+          <div class="composer-box" data-agy-chat-input="true">
+            <textarea id="composer-input" placeholder="Ask anything, @ to mention, / for actions (nhấn Enter để thử bong bóng chat)"></textarea>
+            <div class="composer-meta">
+              <span>+ Gemini 4 Hydrogen</span>
+              <span>Turbo ▾ &nbsp; 🎙️ &nbsp; ⏎</span>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Native Settings Modal Shell (like Image 1) -->
+  <div class="settings-overlay" id="settings-overlay">
+    <div class="settings-modal">
+      <div class="settings-nav-pane">
+        <div class="settings-nav-title">Settings</div>
+        <div class="settings-nav-list" id="settings-nav-list">
+          <button type="button" class="settings-nav-btn active" data-native-tab="General">General</button>
+          <button type="button" class="settings-nav-btn" data-native-tab="Application">Application</button>
+          <button type="button" class="settings-nav-btn" data-native-tab="Appearance">Appearance</button>
+          <button type="button" class="settings-nav-btn" data-native-tab="Shortcuts">Shortcuts</button>
+          <button type="button" class="settings-nav-btn" data-native-tab="Notifications">Notifications</button>
+          <button type="button" class="settings-nav-btn" data-native-tab="Models">Models</button>
+        </div>
+      </div>
+
+      <div class="settings-content-pane" data-agy-settings-content="true">
+        <div class="settings-close-bar">
+          <button type="button" class="pill-btn" id="btn-close-settings">✕ Đóng Settings</button>
+        </div>
+        <div class="native-settings-view" id="native-settings-view">
+          <h2>General</h2>
+          <p>Đây là tab cài đặt gốc mô phỏng của Antigravity. Chọn mục <strong>Custom theme</strong> ngay dưới <strong>Appearance</strong> ở thanh bên trái để mở bộ tuỳ biến theme.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const overlay = document.getElementById('settings-overlay');
+      const nativeView = document.getElementById('native-settings-view');
+      const navList = document.getElementById('settings-nav-list');
+      const welcomeHero = document.getElementById('welcome-hero');
+      const chatThread = document.getElementById('chat-thread');
+      const composerInput = document.getElementById('composer-input');
+
+      function openSettingsModal(autoCustom = false) {
+        overlay.classList.add('is-open');
+        if (autoCustom) {
+          setTimeout(() => {
+            window.__AGY_CUSTOM_THEME__?.openSettings();
+          }, 30);
+        }
+      }
+
+      document.getElementById('btn-open-settings').addEventListener('click', () => openSettingsModal(true));
+      document.getElementById('side-settings').addEventListener('click', () => openSettingsModal(true));
+      document.getElementById('btn-close-settings').addEventListener('click', () => overlay.classList.remove('is-open'));
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('is-open');
+      });
+
+      navList.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-native-tab]');
+        if (!btn) return;
+        navList.querySelectorAll('.settings-nav-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        nativeView.innerHTML = `<h2>${btn.dataset.nativeTab}</h2><p>Trang cài đặt gốc mô phỏng cho mục <strong>${btn.dataset.nativeTab}</strong>. Chọn <strong>Custom theme</strong> ở menu trái để xem phần injector thêm vào.</p>`;
+      });
+
+      document.getElementById('btn-mode-welcome').addEventListener('click', () => {
+        welcomeHero.style.display = 'block';
+        chatThread.style.display = 'none';
+      });
+      document.getElementById('btn-mode-chat').addEventListener('click', () => {
+        welcomeHero.style.display = 'none';
+        chatThread.style.display = 'flex';
+      });
+      document.getElementById('side-new').addEventListener('click', () => {
+        welcomeHero.style.display = 'block';
+        chatThread.style.display = 'none';
+      });
+      document.getElementById('side-chat').addEventListener('click', () => {
+        welcomeHero.style.display = 'none';
+        chatThread.style.display = 'flex';
+      });
+
+      composerInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          const text = composerInput.value.trim();
+          if (!text) return;
+          welcomeHero.style.display = 'none';
+          chatThread.style.display = 'flex';
+
+          const row = document.createElement('div');
+          row.className = 'msg-row user';
+          const bubble = document.createElement('div');
+          bubble.className = 'user-bubble';
+          bubble.setAttribute('data-agy-chat-bubble', 'true');
+          bubble.textContent = text;
+          row.appendChild(bubble);
+          chatThread.appendChild(row);
+          composerInput.value = '';
+          row.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+      });
+    })();
+  </script>
+
+  <!-- Load exact compiled single-file injector -->
+  <script src="./dist/antigravity-theme-injector.js"></script>
+</body>
+</html>

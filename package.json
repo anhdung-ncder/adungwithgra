@@ -1,0 +1,16 @@
+{
+  "name": "antigravity-custom-theme-injector",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Custom theme injector with wallpapers, ambient FX, chat bubbles, stickers & pets for Antigravity",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "inject": "node inject.mjs",
+    "inject:open": "node inject.mjs --open-settings",
+    "inject:reset": "node inject.mjs --reset",
+    "inject:watch": "node inject.mjs --watch",
+    "launch": "node inject.mjs --launch",
+    "launcher": "node scripts/create-launcher.mjs"
+  }
+}
