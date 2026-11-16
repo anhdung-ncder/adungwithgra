@@ -3,6 +3,7 @@
 .launcher.log
 *.log
 user-data/
+silent-start.vbs
 Antigravity Custom Theme.app/
 
 # Dependencies & OS

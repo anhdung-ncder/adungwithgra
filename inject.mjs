@@ -14,6 +14,7 @@
  */
 import { execFileSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { setTimeout as delay } from 'node:timers/promises';
 import { fileURLToPath } from 'node:url';
@@ -81,6 +82,7 @@ function parseCliArgs(argv) {
   const args = {
     host: '127.0.0.1',
     port: 9000,
+    portExplicit: false,
     title: '',
     app: 'Antigravity',
     build: false,
@@ -91,6 +93,7 @@ function parseCliArgs(argv) {
     dryRun: false,
     help: false,
     syncDaemon: false,
+    alwaysOn: false,
     daemonWaitMs: 30000
   };
 
@@ -112,6 +115,8 @@ function parseCliArgs(argv) {
       args.dryRun = true;
     } else if (token === '--sync-daemon') {
       args.syncDaemon = true;
+    } else if (token === '--always-on') {
+      args.alwaysOn = true;
     } else if (token === '--daemon-wait') {
       const parsed = Number(argv[++i]);
       if (Number.isFinite(parsed) && parsed > 0) args.daemonWaitMs = parsed;
@@ -125,6 +130,7 @@ function parseCliArgs(argv) {
         throw new Error('Giá trị --port phải là số nguyên trong khoảng 1..65535.');
       }
       args.port = parsed;
+      args.portExplicit = true;
     } else if (token === '--title') {
       args.title = argv[++i] || '';
     } else {
@@ -297,11 +303,50 @@ async function fetchDebugTargets({ host, port, titleFilter = '', timeoutMs = 400
   });
 }
 
+function resolveActiveCdpPort(fallbackPort = 9000) {
+  if (process.env.AGY_PORT_FILE && fs.existsSync(process.env.AGY_PORT_FILE)) {
+    try {
+      const p = parseInt(fs.readFileSync(process.env.AGY_PORT_FILE, 'utf8').trim().split(/\r?\n/)[0], 10);
+      if (Number.isInteger(p) && p > 0) return p;
+    } catch {}
+  }
+  const home = os.homedir();
+  const candidates = [];
+  if (process.platform === 'win32') {
+    const appData = process.env.APPDATA || path.join(home, 'AppData', 'Roaming');
+    candidates.push(
+      path.join(appData, 'antigravity', 'DevToolsActivePort'),
+      path.join(appData, 'Antigravity', 'DevToolsActivePort')
+    );
+  } else if (process.platform === 'darwin') {
+    const appSupport = path.join(home, 'Library', 'Application Support');
+    candidates.push(
+      path.join(appSupport, 'antigravity', 'DevToolsActivePort'),
+      path.join(appSupport, 'Antigravity', 'DevToolsActivePort')
+    );
+  } else {
+    const xdgConfig = process.env.XDG_CONFIG_HOME || path.join(home, '.config');
+    candidates.push(
+      path.join(xdgConfig, 'antigravity', 'DevToolsActivePort'),
+      path.join(xdgConfig, 'Antigravity', 'DevToolsActivePort')
+    );
+  }
+  for (const filePath of candidates) {
+    if (!fs.existsSync(filePath)) continue;
+    try {
+      const p = parseInt(fs.readFileSync(filePath, 'utf8').trim().split(/\r?\n/)[0], 10);
+      if (Number.isInteger(p) && p > 0) return p;
+    } catch {}
+  }
+  return fallbackPort;
+}
+
 async function tryFetchDebugTargets(args, timeoutMs = 1200) {
+  const effectivePort = args.portExplicit ? args.port : resolveActiveCdpPort(args.port);
   try {
     return await fetchDebugTargets({
       host: args.host,
-      port: args.port,
+      port: effectivePort,
       titleFilter: args.title,
       timeoutMs
     });
@@ -666,7 +711,7 @@ async function runSyncDaemon(args) {
       }
     }
 
-    if (!reported && Date.now() - startedAt > args.daemonWaitMs) {
+    if (!args.alwaysOn && !reported && Date.now() - startedAt > args.daemonWaitMs) {
       writeStatus({
         state: 'error',
         message:
@@ -677,9 +722,18 @@ async function runSyncDaemon(args) {
       return;
     }
     if (reported && failedPolls >= EXIT_AFTER_FAILED_POLLS) {
-      console.log('[sync] Antigravity đã đóng, dừng tiến trình đồng bộ.');
-      shutdown(0);
-      return;
+      if (args.alwaysOn) {
+        for (const entry of attached.values()) {
+          try { entry.session.close(); } catch {}
+        }
+        attached.clear();
+        reported = false;
+        failedPolls = 0;
+      } else {
+        console.log('[sync] Antigravity đã đóng, dừng tiến trình đồng bộ.');
+        shutdown(0);
+        return;
+      }
     }
     await delay(POLL_INTERVAL_MS);
   }
@@ -873,6 +927,10 @@ async function main() {
   if (args.help) {
     printHelp();
     return;
+  }
+
+  if (!args.portExplicit && !args.launch) {
+    args.port = resolveActiveCdpPort(args.port);
   }
 
   if (args.syncDaemon) {
